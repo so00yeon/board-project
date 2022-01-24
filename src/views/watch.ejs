@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <%- include ("base") %>
+</head>
+<body>
+    <div>
+        <% if (board) { %>
+            <table border="1">
+                <tr>
+                    <td>제목</td>
+                    <td id="title"><%= board.title %></td>
+                </tr>
+                <tr>
+                    <td>작성자</td>
+                    <td id="writer"><%= board.writer %></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td id="content"><%= board.content %></td>
+                </tr>
+                
+            </table>
+            <div class="form-group">
+              <form method="post">
+                <div class="form-group">
+                    
+                    <input type="hidden" id="board_id" name="board_id" value="<%= board.board_id %>">
+                    <% if (loggedIn) {%>
+                    <% if (loggedInUser.name == board.writer) {%>
+                        <input type="hidden" name="password" class="form-control" id="password" value="<%= board.password%>">
+                        <%} else {%>
+                            <label for="password">비밀번호</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="비밀번호를 입력해주세요" required="required">
+                    <% } } if (!loggedIn) {%>
+                    <label for="password">비밀번호</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="비밀번호를 입력해주세요" required="required">
+                    <%} %>
+                    <% if (errorMessage){%>
+                        <span><%= errorMessage %></span>
+                        <%}%>
+
+                        <br>
+                    <button id="editBtn">Edit & Delete Post</button>
+                </div>
+              </form>
+              <div>
+                  <a href="/boards/<%=board.board_id%>/edit">Edit Post</a>
+                  <a href="/boards/<%=board.board_id%>/delete">Delete Post</a>
+              </div>
+    <%
+} else { %>
+        <h1>NOPE!</h1>
+    <% }%>
+    </div>
+    
+</body>
+<script>
+    const buttonElement = document.getElementById('editBtn');
+    const passValue = document.getElementById('password');
+    function view() {
+    console.log("확인");
+}
+
+</script>
+</html>

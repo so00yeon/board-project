@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <%- include ("base") %>
+</head>
+<body>
+    <!-- <h1><%= pageTitle %></h1> -->
+    <div>
+        <table border="1">
+                <th>번호</th>
+	            <th>제목</th>
+                <th>작성자</th>
+        <% if (boards) {
+        boards.forEach(function(val){ %>
+                <tr>
+                    <td><%= val.board_id %></td>
+                    <td><a href="/boards/<%=val.board_id%>"><%= val.title %></a></td>
+                    <td><%= val.writer %></td>
+                </tr>
+            
+            
+        <% })
+    } else { %>
+        <tr>SORRY, not found</tr>
+        <%}%>
+    </table>
+    </div>
+</body>
+</html>
