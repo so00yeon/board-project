@@ -13,8 +13,8 @@
         <nav>
             <ul>
                 <% if (loggedIn) {%>
-                    <li><a href="users/logout"> Log out</a></li>
-                    <li><a href="/my-profile"> <%= loggedInUser.name%>의 Profile </a></li>
+                    <li><a href="/users/logout"> Log out</a></li>
+                    <li><a href="/users/edit"> Edit Profile </a></li>
                     <%} else {%>
                         <li><a href="/join"> Join</a></li>
                         <li><a href="/login"> Login</a></li>

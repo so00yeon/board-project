@@ -23,6 +23,10 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.INTEGER,
                 allowNull: false,
             },
+            path: {
+                type: Sequelize.BLOB("long"),
+                allowNull: true,
+            },
         },
         {
             timestamps: false,

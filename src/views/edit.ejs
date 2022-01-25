@@ -4,10 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <%- include ("base") %>
 </head>
 <body>
-    
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">제목</label>
+          <input type="text" name="title" class="form-control" id="title" placeholder="제목을 입력해주세요" required="required" pattern=".{4,100}" value="<%= board.title %>">
+        </div>
+        <div class="form-group">
+            <label for="writer">작성자</label>
+                <span><%= board.writer %></span>
+          </div>
+        <div class="form-group">
+          <label for="content">내용</label>
+          <textarea name="content" class="form-control" id="content" placeholder="내용을 입력해주세요" required="required" rows="20"><%= board.content %></textarea>
+        </div>
+        <div class="form-group">
+            <label for="file">파일</label>
+            <img src="/<%= board.path %>" style="width: 30%;" />
+            <input type="file" name="file" class="form-control" id="file" accept="image/*">
+        </div>
+        <button type="submit">Edit</button>
+      </form>
 </body>
 </html>

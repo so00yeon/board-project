@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <%- include ("base") %>
 </head>
 <body>
@@ -15,15 +14,13 @@
 	            <th>제목</th>
                 <th>작성자</th>
         <% if (boards) {
-        boards.forEach(function(val){ %>
+            for (let i=0; i < boards.length; i++) { %>
                 <tr>
-                    <td><%= val.board_id %></td>
-                    <td><a href="/boards/<%=val.board_id%>"><%= val.title %></a></td>
-                    <td><%= val.writer %></td>
+                    <td><%= i+1 %></td>
+                    <td><a href="/boards/<%=boards[i].board_id%>"><%= boards[i].title %></a></td>
+                    <td><%= boards[i].writer %></td>
                 </tr>
-            
-            
-        <% })
+        <% }
     } else { %>
         <tr>SORRY, not found</tr>
         <%}%>

@@ -7,13 +7,19 @@ import {
     getEdit,
     postEdit,
 } from "../controllers/boardController";
+import { pictureUpload } from "../middleware";
 
 const boardRouter = express.Router();
 
-//boardRouter.get("/upload", upload);
-boardRouter.route("/upload").get(getUpload).post(postUpload);
+boardRouter
+    .route("/upload")
+    .get(getUpload)
+    .post(pictureUpload.single("file"), postUpload);
 boardRouter.get("/:id(\\d+)", watch);
-boardRouter.route("/:id(\\d+)/edit").get(getEdit).post(postEdit);
-boardRouter.get("/:id/delete", deleteboard);
+boardRouter
+    .route("/:id(\\d+)/edit")
+    .get(getEdit)
+    .post(pictureUpload.single("file"), postEdit);
+boardRouter.get("/:id(\\d+)/delete", deleteboard);
 
 export default boardRouter;

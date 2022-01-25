@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <%- include ("base") %>
 </head>
 <body>
@@ -22,6 +21,14 @@
                 <tr>
                     <td>내용</td>
                     <td id="content"><%= board.content %></td>
+                </tr>
+                <tr>
+                    <td>파일</td>
+                    <% if(board.path == null) {%>
+                        <td id="file">이미지가 없습니다.</td>
+                        <%} else {%>
+                    <td id="file"><img src="/<%= board.path %>" /></td>
+                    <%}%>
                 </tr>
                 
             </table>

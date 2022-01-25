@@ -74,5 +74,28 @@ export const logout = (req, res) => {
     return res.redirect("/");
 };
 
-export const edit = (req, res) => res.send("Edit User");
+export const getEdit = (req, res) => {
+    return res.render("edit-profile", {
+        pageTitle: "Edit Profile",
+        user: req.session.user,
+    });
+};
+
+export const postEdit = async (req, res) => {
+    const {
+        session: {
+            user: { user_id },
+        },
+        body: { name, userName },
+    } = req;
+    const updatedUser = await db.User.update(
+        { name, userName },
+        { where: { user_id: user_id } },
+    );
+    const updatedUserFind = await db.User.findOne({
+        where: { user_id: user_id },
+    });
+    req.session.user = updatedUserFind;
+    return res.redirect("/users/edit");
+};
 export const see = (req, res) => res.send("See");
