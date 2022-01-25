@@ -12,14 +12,23 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
-    const { title, content, writer, password, file } = req.body;
+    const { title, content, writer, password } = req.body;
+    const path = null;
+    let user_id = null;
+    if (req.file) {
+        path = req.file.path;
+    }
+    if (req.session.user) {
+        user_id = req.session.user.user_id;
+    }
     try {
         await db.Board.create({
             title,
             content,
             writer,
             password,
-            path: req.file.path,
+            path,
+            user_id,
         });
         return res.redirect("/");
     } catch (error) {

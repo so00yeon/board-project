@@ -1,6 +1,7 @@
 import db from "../../models";
 import multer from "multer";
 import User from "../../models/User";
+import Board from "../../models/Board";
 import bcrypt from "bcrypt";
 
 export const getJoin = (req, res) =>
@@ -88,10 +89,8 @@ export const postEdit = async (req, res) => {
         },
         body: { name, userName },
     } = req;
-    const updatedUser = await db.User.update(
-        { name, userName },
-        { where: { user_id: user_id } },
-    );
+    await db.User.update({ name, userName }, { where: { user_id: user_id } });
+    await db.Board.update({ writer: name }, { where: { user_id: user_id } });
     const updatedUserFind = await db.User.findOne({
         where: { user_id: user_id },
     });

@@ -29,5 +29,3 @@ export const pictureUpload = multer({
         fileSize: 3000000,
     },
 });
-
-export const pictuerCheck = (file) => {};

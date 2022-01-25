@@ -27,12 +27,27 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.BLOB("long"),
                 allowNull: true,
             },
+            user_id: {
+                type: Sequelize.INTEGER,
+                allowNull: true,
+            },
+            like: {
+                type: Sequelize.INTEGER,
+                defaultValue: 0,
+                allowNull: false,
+            },
+            hate: {
+                type: Sequelize.INTEGER,
+                defaultValue: 0,
+                allowNull: false,
+            },
+            createdAt: Sequelize.DATE,
+            updatedAt: Sequelize.DATE,
         },
         {
-            timestamps: false,
+            timestamps: true,
         },
     );
-
     return Board;
 };
 // 제목 / 닉네임 / 내용 / 비밀번호 / 이미지파일(option)
