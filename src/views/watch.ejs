@@ -31,27 +31,24 @@
                     
                     <input type="hidden" id="board_id" name="board_id" value="<%= board.board_id %>">
                     <% if (loggedIn) {%>
-                    <% if (loggedInUser.name == board.writer) {%>
-                        <input type="hidden" name="password" class="form-control" id="password" value="<%= board.password%>">
-                        <%} else {%>
-                            <label for="password">비밀번호</label>
+                    <% if (loggedInUser.name != board.writer) {%>
+                        <label for="password">비밀번호</label>
                     <input type="password" name="password" class="form-control" id="password" placeholder="비밀번호를 입력해주세요" required="required">
-                    <% } } if (!loggedIn) {%>
+                    <span id="message"></span>
+                        <br>
+                    <button type="button" onclick="view(<%= board.password %>, <%=board.board_id%>);" id="editBtn">Edit & Delete Post</button>
+                        <%} else {%>
+                            <a href="/boards/<%=board.board_id%>/edit">Edit Post</a><br><a href="/boards/<%=board.board_id%>/delete">Delete Post</a>
+                    <% } } 
+                    if (!loggedIn) {%>
                     <label for="password">비밀번호</label>
                     <input type="password" name="password" class="form-control" id="password" placeholder="비밀번호를 입력해주세요" required="required">
-                    <%} %>
-                    <% if (errorMessage){%>
-                        <span><%= errorMessage %></span>
-                        <%}%>
-
+                    <span id="message"></span>
                         <br>
-                    <button id="editBtn">Edit & Delete Post</button>
+                    <button type="button" onclick="view(<%= board.password %>, <%=board.board_id%>);" id="editBtn">Edit & Delete Post</button>
+                    <%} %>  
                 </div>
               </form>
-              <div>
-                  <a href="/boards/<%=board.board_id%>/edit">Edit Post</a>
-                  <a href="/boards/<%=board.board_id%>/delete">Delete Post</a>
-              </div>
     <%
 } else { %>
         <h1>NOPE!</h1>
@@ -60,11 +57,14 @@
     
 </body>
 <script>
-    const buttonElement = document.getElementById('editBtn');
-    const passValue = document.getElementById('password');
-    function view() {
-    console.log("확인");
+    function view(pass, id) {
+        const passValue = document.getElementById('password').value;
+        if (pass == passValue) {
+            document.getElementById('message').innerHTML="";
+            document.getElementById("message").innerHTML='<a href="/boards/'+id+'/edit">Edit Post</a><br><a href="/boards/'+id+'/delete">Delete Post</a>';
+        } else {
+            document.getElementById('message').innerHTML="비밀번호가 틀렸습니다..";
+        }
 }
-
 </script>
 </html>

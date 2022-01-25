@@ -44,7 +44,7 @@ export const postUpload = async (req, res) => {
 // export const watch = (req, res) => {
 //     return res.send(`Watch #${req.params.id}`);
 // };
-export const getWatch = async (req, res) => {
+export const watch = async (req, res) => {
     const { id } = req.params;
     const board = await db.Board.findOne({
         where: {
@@ -78,6 +78,25 @@ export const postWatch = async (req, res) => {
         });
     }
     return res.render("edit", { pageTitle: "Edit & Delete", board });
+};
+
+export const getEdit = async (req, res) => {
+    const { id } = req.params;
+    const board = await db.Board.findOne({
+        where: {
+            board_id: id,
+        },
+    });
+    if (!board) {
+        return res.render("404", { pageTitle: "Board not found." });
+    }
+    return res.render("edit", { pageTitle: `Edit: ${board.title}`, board });
+};
+
+export const postEdit = (req, res) => {
+    const { id } = req.params;
+    const { title } = req.body;
+    return res.redirect(`/board/${id}`);
 };
 
 export const search = (req, res) => res.send("Search");
