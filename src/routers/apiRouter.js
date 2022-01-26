@@ -1,5 +1,5 @@
 import express from "express";
-import { likeUpdown } from "../controllers/boardController";
+//import { likeUpdown } from "../controllers/boardController";
 
 const apiRouter = express.Router();
 

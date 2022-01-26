@@ -75,11 +75,22 @@ export const logout = (req, res) => {
     return res.redirect("/");
 };
 
-export const getEdit = (req, res) => {
-    return res.render("edit-profile", {
-        pageTitle: "Edit Profile",
-        user: req.session.user,
-    });
+export const getEdit = async (req, res, next) => {
+    try {
+        const exists = await db.User.findOne({
+            where: {
+                user_id: req.session.user.user_id,
+            },
+        });
+
+        console.log(exists);
+        return res.render("edit-profile", {
+            pageTitle: "Edit Profile",
+            user: exists,
+        });
+    } catch (e) {
+        next(e);
+    }
 };
 
 export const postEdit = async (req, res) => {
@@ -89,11 +100,18 @@ export const postEdit = async (req, res) => {
         },
         body: { name, userName },
     } = req;
-    await db.User.update({ name, userName }, { where: { user_id: user_id } });
+    let path = null;
+    if (req.file) {
+        path = req.file.path;
+        await db.User.update({ name, userName, path }, { where: { user_id } });
+    } else {
+        await db.User.update({ name, userName }, { where: { user_id } });
+    }
     await db.Board.update({ writer: name }, { where: { user_id: user_id } });
     const updatedUserFind = await db.User.findOne({
-        where: { user_id: user_id },
+        where: { user_id },
     });
+
     req.session.user = updatedUserFind;
     return res.redirect("/users/edit");
 };

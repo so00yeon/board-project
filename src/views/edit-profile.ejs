@@ -7,9 +7,14 @@
     <%- include ("base") %>
 </head>
 <body>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <input type="text" placeholder="Name" name="name" required value="<%=loggedInUser.name%>">
         <input type="text" placeholder="UserName" name="userName" required value="<%=loggedInUser.userName%>">
+        <div class="form-group">
+            <label for="file">프로필 사진</label>
+            <img src="/<%= user.path %>" style="width: 30%;" />
+            <input type="file" name="file" class="form-control" id="file" accept="image/*">
+        </div>
         <input type="submit" value="Update Profile">
     </form>
     

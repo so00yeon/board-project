@@ -72,7 +72,7 @@ export const getEdit = async (req, res) => {
 
 export const postEdit = async (req, res) => {
     const { id } = req.params;
-    const { title, content, file } = req.body;
+    const { title, content } = req.body;
     const board = await db.Board.findOne({
         where: {
             board_id: id,
@@ -81,13 +81,15 @@ export const postEdit = async (req, res) => {
     if (!board) {
         return res.render("404", { pageTitle: "Board not found." });
     }
-    if (!req.file.path) {
-        await db.Board.update({ title, content }, { where: { board_id: id } });
-    } else {
+    let path = null;
+    if (req.file) {
+        path = req.file.path;
         await db.Board.update(
-            { title, content, path: req.file.path },
+            { title, content, path },
             { where: { board_id: id } },
         );
+    } else {
+        await db.Board.update({ title, content }, { where: { board_id: id } });
     }
     return res.redirect(`/boards/${id}`);
 };
