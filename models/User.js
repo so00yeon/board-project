@@ -20,6 +20,10 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
+            path: {
+                type: Sequelize.BLOB("long"),
+                allowNull: true,
+            },
         },
         {
             timestamps: false,

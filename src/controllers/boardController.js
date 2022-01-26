@@ -1,6 +1,7 @@
 import db from "../../models";
 import multer from "multer";
 import Board from "../../models/Board";
+import User from "../../models/User";
 
 export const home = async (req, res) => {
     const boards = await db.Board.findAll({});
@@ -13,7 +14,7 @@ export const getUpload = (req, res) => {
 
 export const postUpload = async (req, res) => {
     const { title, content, writer, password } = req.body;
-    const path = null;
+    let path = null;
     let user_id = null;
     if (req.file) {
         path = req.file.path;
@@ -107,4 +108,50 @@ export const registerView = async (req, res) => {
     video.meta.views = video.meta.views + 1;
     await video.save();
     return res.sendStatus(200);
+};
+
+export const likeUpdown = async (req, res) => {
+    const { id } = req.params;
+    const likeExists = await db.sequelize.models.User_Likes.findOne({
+        where: {
+            user_id: req.session.user.user_id,
+            board_id: id,
+        },
+    });
+    if (likeExists) {
+        await db.sequelize.models.User_Likes.destroy({
+            where: { board_id: id },
+        });
+        await db.Board.decrement(["like"], { where: { board_id: id } });
+    } else {
+        await db.sequelize.models.User_Likes.create({
+            user_id: req.session.user.user_id,
+            board_id: id,
+        });
+        await db.Board.increment(["like"], { where: { board_id: id } });
+    }
+    return res.redirect(`/boards/${id}`);
+};
+
+export const hateUpdown = async (req, res) => {
+    const { id } = req.params;
+    const hateExists = await db.sequelize.models.User_Hates.findOne({
+        where: {
+            user_id: req.session.user.user_id,
+            board_id: id,
+        },
+    });
+    if (hateExists) {
+        await db.sequelize.models.User_Hates.destroy({
+            where: { board_id: id },
+        });
+        await db.Board.decrement(["hate"], { where: { board_id: id } });
+    } else {
+        await db.sequelize.models.User_Hates.create({
+            user_id: req.session.user.user_id,
+            board_id: id,
+        });
+        await db.Board.increment(["hate"], { where: { board_id: id } });
+    }
+    return res.redirect(`/boards/${id}`);
 };

@@ -7,7 +7,7 @@
     <%- include ("base") %>
 </head>
 <body>
-    <div>
+    <div class="watch_container">
         <% if (board) { %>
             <table border="1">
                 <tr>
@@ -33,7 +33,6 @@
                 
             </table>
             <div class="form-group">
-              <form method="post">
                 <div class="form-group">
                     
                     <input type="hidden" id="board_id" name="board_id" value="<%= board.board_id %>">
@@ -55,13 +54,18 @@
                     <button type="button" onclick="view(<%= board.password %>, <%=board.board_id%>);" id="editBtn">Edit & Delete Post</button>
                     <%} %>  
                 </div>
-              </form>
     <%
 } else { %>
         <h1>NOPE!</h1>
     <% }%>
     </div>
-    
+    <% if (loggedIn) {%>
+    <button id="like" type="button" onclick="location.href='/boards/<%=board.board_id%>/like' ">좋아요👍 <%= board.like %></button>
+    <button id="hate" type="button" onclick="location.href='/boards/<%=board.board_id%>/hate' ">싫어요👎 <%= board.hate %></button>
+    <% } else {%>
+        <span>좋아요👍 <%= board.like %></span>
+        <span>싫어요👎 <%= board.hate %></span>
+        <% } %>
 </body>
 <script>
     function view(pass, id) {
@@ -73,5 +77,6 @@
             document.getElementById('message').innerHTML="비밀번호가 틀렸습니다..";
         }
 }
+
 </script>
 </html>

@@ -13,12 +13,18 @@
                 <th>번호</th>
 	            <th>제목</th>
                 <th>작성자</th>
+                <th>좋아요</th>
+                <th>싫어요</th>
+                <th>작성일</th>
         <% if (boards) {
             for (let i=0; i < boards.length; i++) { %>
                 <tr>
                     <td><%= i+1 %></td>
                     <td><a href="/boards/<%=boards[i].board_id%>"><%= boards[i].title %></a></td>
                     <td><%= boards[i].writer %></td>
+                    <td><%= boards[i].like %></td>
+                    <td><%= boards[i].hate %></td>
+                    <td><%= boards[i].createdAt %></td>
                 </tr>
         <% }
     } else { %>
