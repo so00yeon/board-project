@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
                 allowNull: false,
             },
             path: {
-                type: Sequelize.BLOB("long"),
+                type: Sequelize.STRING,
                 allowNull: true,
             },
             user_id: {

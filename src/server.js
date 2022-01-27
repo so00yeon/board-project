@@ -36,10 +36,10 @@ app.use(express.json());
 app.use(
     session({
         key: "session_cookie_name",
-        secret: process.env.COOKIE_SECRET,
+        secret: process.env.COOKIE_SECRET, // 쿠키에 저장할 connect.sid값을 암호화할 키값 입력
         store: sessionStore,
-        resave: false,
-        saveUninitialized: false,
+        resave: false, //세션 아이디를 접속할때마다 새롭게 발급하지 않음
+        saveUninitialized: true, //세션 아이디를 실제 사용하기전에는 발급하지 않음
     }),
 );
 

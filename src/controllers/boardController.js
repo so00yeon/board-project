@@ -157,3 +157,10 @@ export const hateUpdown = async (req, res) => {
     }
     return res.redirect(`/boards/${id}`);
 };
+
+export const dateSort = async (req, res) => {
+    const boards = await db.Board.findAll({
+        order: [["createdAt", "DESC"]],
+    });
+    return res.render("home", { pageTitle: "Home", boards });
+};

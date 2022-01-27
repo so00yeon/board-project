@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <%- include ("base") %>
 </head>
 <body>
-    <!-- <h1><%= pageTitle %></h1> -->
+    <div>
+        <button type="button" onclick="view();">작성일순</button><button onclick="location.href='/api/boards/likeSort' ">좋아요순</button><button>싫어요순</button>
+    </div>
     <div>
         <table border="1">
                 <th>번호</th>
@@ -33,4 +36,11 @@
     </table>
     </div>
 </body>
+<script>
+    function view() {
+        fetch(`/api/boards/date`, {
+            method: "post", // apiRouter에서 post로 보냈기 때문에
+        });
+    }
+    </script>
 </html>
