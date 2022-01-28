@@ -23,7 +23,5 @@ boardRouter
     .get(getEdit)
     .post(pictureUpload.single("file"), postEdit);
 boardRouter.get("/:id(\\d+)/delete", deleteboard);
-boardRouter.get("/:id(\\d+)/like", likeUpdown);
-boardRouter.get("/:id(\\d+)/hate", hateUpdown);
 
 export default boardRouter;

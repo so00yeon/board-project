@@ -1,11 +1,19 @@
 import express from "express";
-import { dateSort } from "../controllers/boardController";
+import {
+    likeUpdown,
+    hateUpdown,
+    dateSort,
+    likeSort,
+    hateSort,
+} from "../controllers/boardController";
 
 const apiRouter = express.Router();
 
-// apiRouter.all("/boards/:id(\\d+)/view").get(colorChange);
-//apiRouter.get("/boards/:id(\\d+)/like", likeUpdown);
-apiRouter.post("/boards/date", dateSort);
+apiRouter.post("/:TorF(\\d+)/date", dateSort);
+apiRouter.post("/:TorF(\\d+)/like", likeSort);
+apiRouter.post("/:TorF(\\d+)/hate", hateSort);
 //apiRouter.post("/boards/:id(\\d+)/comment", createComment);
+apiRouter.post("/boards/:id(\\d+)/like", likeUpdown);
+apiRouter.post("/boards/:id(\\d+)/hate", hateUpdown);
 
 export default apiRouter;

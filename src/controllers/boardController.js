@@ -132,7 +132,13 @@ export const likeUpdown = async (req, res) => {
         });
         await db.Board.increment(["like"], { where: { board_id: id } });
     }
-    return res.redirect(`/boards/${id}`);
+    let result = await db.Board.findOne({
+        attributes: ["like"],
+        where: {
+            board_id: id,
+        },
+    });
+    return res.send(result);
 };
 
 export const hateUpdown = async (req, res) => {
@@ -155,12 +161,62 @@ export const hateUpdown = async (req, res) => {
         });
         await db.Board.increment(["hate"], { where: { board_id: id } });
     }
-    return res.redirect(`/boards/${id}`);
+    let result = await db.Board.findOne({
+        attributes: ["hate"],
+        where: {
+            board_id: id,
+        },
+    });
+    return res.send(result);
 };
 
 export const dateSort = async (req, res) => {
-    const boards = await db.Board.findAll({
-        order: [["createdAt", "DESC"]],
-    });
-    return res.render("home", { pageTitle: "Home", boards });
+    let TorF = req.params.TorF;
+    let boards = null;
+    if (TorF == 0) {
+        boards = await db.Board.findAll({
+            order: [["createdAt", "DESC"]],
+        });
+        TorF = 1;
+    } else {
+        boards = await db.Board.findAll({
+            order: [["createdAt", "ASC"]],
+        });
+        TorF = 0;
+    }
+    return res.send({ boards, TorF });
+};
+
+export const likeSort = async (req, res) => {
+    let TorF = req.params.TorF;
+    let boards = null;
+    if (TorF == 0) {
+        boards = await db.Board.findAll({
+            order: [["like", "DESC"]],
+        });
+        TorF = 1;
+    } else {
+        boards = await db.Board.findAll({
+            order: [["like", "ASC"]],
+        });
+        TorF = 0;
+    }
+    return res.send({ boards, TorF });
+};
+
+export const hateSort = async (req, res) => {
+    let TorF = req.params.TorF;
+    let boards = null;
+    if (TorF == 0) {
+        boards = await db.Board.findAll({
+            order: [["hate", "DESC"]],
+        });
+        TorF = 1;
+    } else {
+        boards = await db.Board.findAll({
+            order: [["hate", "ASC"]],
+        });
+        TorF = 0;
+    }
+    return res.send({ boards, TorF });
 };

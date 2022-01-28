@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/js/watchFun.js"></script>
     <%- include ("base") %>
+
 </head>
 <body>
     <div class="watch_container">
@@ -60,8 +63,8 @@
     <% }%>
     </div>
     <% if (loggedIn) {%>
-    <button id="like" type="button" onclick="location.href='/boards/<%=board.board_id%>/like' ">좋아요👍 <%= board.like %></button>
-    <button id="hate" type="button" onclick="location.href='/boards/<%=board.board_id%>/hate' ">싫어요👎 <%= board.hate %></button>
+    <button id="like" type="button" onclick="likeFun(<%=board.board_id%>) ">좋아요👍 <%= board.like %></button>
+    <button id="hate" type="button" onclick="hateFun(<%=board.board_id%>) ">싫어요👎 <%= board.hate %></button>
     <% } else {%>
         <span>좋아요👍 <%= board.like %></span>
         <span>싫어요👎 <%= board.hate %></span>
@@ -77,6 +80,5 @@
             document.getElementById('message').innerHTML="비밀번호가 틀렸습니다..";
         }
 }
-
 </script>
 </html>

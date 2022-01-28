@@ -5,14 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/js/watchFun.js"></script>
     <%- include ("base") %>
+        <script>
+            localStorage.setItem("dateSort", Number(0));
+            localStorage.setItem("likeSort", Number(0));
+            localStorage.setItem("hateSort", Number(0));
+        </script>
 </head>
 <body>
     <div>
-        <button type="button" onclick="view();">작성일순</button><button onclick="location.href='/api/boards/likeSort' ">좋아요순</button><button>싫어요순</button>
+        <button type="button" onclick="dateView(localStorage.getItem('dateSort'));">작성일순</button><button onclick="likeView(localStorage.getItem('likeSort')); ">좋아요순</button><button onclick="hateView(localStorage.getItem('hateSort')); ">싫어요순</button>
     </div>
-    <div>
-        <table border="1">
+    <div id="table-container">
+        <table id="table-th" border="1">
                 <th>번호</th>
 	            <th>제목</th>
                 <th>작성자</th>
@@ -36,11 +42,4 @@
     </table>
     </div>
 </body>
-<script>
-    function view() {
-        fetch(`/api/boards/date`, {
-            method: "post", // apiRouter에서 post로 보냈기 때문에
-        });
-    }
-    </script>
 </html>

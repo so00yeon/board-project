@@ -1,7 +1,6 @@
 import multer from "multer";
 
 export const localsMiddelware = (req, res, next) => {
-    console.log(req.session.user);
     res.locals.loggedIn = Boolean(req.session.loggedIn);
     res.locals.siteName = "BoardProject";
     res.locals.loggedInUser = req.session.user;
@@ -37,3 +36,9 @@ export const avatarUpload = multer({
         fileSize: 3000000,
     },
 });
+
+// export const setHomeList = (req, res, next) => {
+//     localStorage.setItem(dateSort, Boolean(0));
+//     localStorage.setItem(likeSort, Boolean(0));
+//     localStorage.setItem(hateSort, Boolean(0));
+// };

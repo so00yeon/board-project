@@ -27,6 +27,7 @@ const sessionStore = new MySQLStore(options);
 app.set("view engine", "ejs");
 app.set("views", process.cwd() + "/src/views");
 app.use("/uploads", express.static("uploads"));
+app.use("/static", express.static("src"));
 // 앞에는 url, 뒤에는 폴더 이름
 
 app.use(logger);
