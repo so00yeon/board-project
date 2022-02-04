@@ -34,12 +34,13 @@ app.use(logger);
 app.use(express.urlencoded({ extended: true })); // req.body....
 //app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
-// app.use((req, res, next) => {
-//     res.header(
-//         "Access-Control-Allow-Origin",
-//         "https://wetube-reloaded21.herokuapp.com/",
-//     );
-// });
+app.use((req, res, next) => {
+    res.header(
+        "Access-Control-Allow-Origin",
+        "https://sosoboard.herokuapp.com/",
+    );
+    next();
+});
 app.use(
     session({
         key: "session_cookie_name",
