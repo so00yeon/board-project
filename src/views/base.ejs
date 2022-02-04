@@ -12,16 +12,17 @@
         <h1><%= pageTitle %></h1>
         <nav>
             <ul>
-                <% if (loggedIn) {%>
-                    <li><a href="/users/logout"> Log out</a></li>
-                    <li><a href="/users/edit"> Edit Profile </a></li>
-                    <%} else {%>
-                        <li><a href="/join"> Join</a></li>
-                        <li><a href="/login"> Login</a></li>
-                        <% }%>
                 <li><a href="/"> Home</a></li>
                 <li><a href="/boards/upload"> Upload Post</a></li>
-                
+                <% if (!loggedIn) {%>
+                    <li><a href="/join"> Join</a></li>
+                    <li><a href="/login"> Login</a></li>
+                    <%} else {%>
+                        <li><a href="/users/logout"> Log out</a></li>
+                        <li><a href="/users/edit"> Edit Profile </a></li>
+                        <span><%= loggedInUser.userName %>님 환영합니다~</span>
+                        <img src="/<%= loggedInUser.path %>" style="width: 10%;" />
+                        <% }%>
             </ul>
         </nav>
     </header>
