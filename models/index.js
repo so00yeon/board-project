@@ -47,9 +47,11 @@ db.Sequelize = Sequelize;
 
 db.Board = require("./Board")(sequelize, Sequelize);
 db.User = require("./User")(sequelize, Sequelize);
+db.Comment = require("./Comment")(sequelize, Sequelize);
 
 db.User.hasMany(db.Board, { foreignKey: "user_id", sourceKey: "user_id" });
 db.Board.belongsTo(db.User, { foreignKey: "user_id", targetKey: "user_id" });
+
 db.User.belongsToMany(db.Board, {
     through: "User_Likes",
     foreignKey: "user_id",
@@ -65,6 +67,12 @@ db.User.belongsToMany(db.Board, {
 db.Board.belongsToMany(db.User, {
     through: "User_Hates",
     foreignKey: "board_id",
+});
+
+db.Board.hasMany(db.Comment, { foreignKey: "board_id", sourceKey: "board_id" });
+db.Comment.belongsTo(db.Board, {
+    foreignKey: "board_id",
+    targetKey: "board_id",
 });
 
 module.exports = db;

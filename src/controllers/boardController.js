@@ -1,7 +1,5 @@
 import db from "../../models";
 import multer from "multer";
-import Board from "../../models/Board";
-import User from "../../models/User";
 
 export const home = async (req, res) => {
     const boards = await db.Board.findAll({});
@@ -46,6 +44,7 @@ export const watch = async (req, res) => {
         where: {
             board_id: id,
         },
+        include: [{ model: db.Comment }],
     });
     if (board === null) {
         return res.render("404", { pageTitle: "Board not found." });
@@ -98,18 +97,6 @@ export const deleteboard = async (req, res) => {
     const { id } = req.params;
     await db.Board.destroy({ where: { board_id: id } });
     return res.redirect("/");
-};
-
-// 랜더링 없이 api 방식으로 백엔드 처리
-export const registerView = async (req, res) => {
-    const { id } = req.params;
-    const video = await Video.findById(id);
-    if (!video) {
-        return res.sendStatus(404); // status()는 render()하기 전에 상태코드를 정할 수 있는 코드이고, sendStatus()는 상태코드를 보내고 연결을 끝냄
-    }
-    video.meta.views = video.meta.views + 1;
-    await video.save();
-    return res.sendStatus(200);
 };
 
 export const likeUpdown = async (req, res) => {
@@ -219,4 +206,60 @@ export const hateSort = async (req, res) => {
         TorF = 0;
     }
     return res.send({ boards, TorF });
+};
+
+export const hateSortOnly = async (req, res) => {
+    let boards = null;
+    boards = await db.Board.findAll({
+        order: [["hate", "DESC"]],
+    });
+    return res.send({ boards });
+};
+
+export const likeSortOnly = async (req, res) => {
+    let boards = null;
+    boards = await db.Board.findAll({
+        order: [["like", "DESC"]],
+    });
+    return res.send({ boards });
+};
+
+export const dateSortOnly = async (req, res) => {
+    let boards = null;
+    boards = await db.Board.findAll({
+        order: [["createdAt", "DESC"]],
+    });
+    return res.send({ boards });
+};
+
+export const createComment = async (req, res) => {
+    const {
+        session: { user },
+        body: { text },
+        params: { id },
+    } = req;
+    const board = await db.Board.findOne({
+        where: {
+            board_id: id,
+        },
+    });
+    if (!board) {
+        return res.sendStatus(404);
+    }
+    const comment = await db.Comment.create({
+        text,
+        user_id: user.user_id,
+        board_id: id,
+    });
+    return res.status(201).json({ newCommentId: comment.comment_id }); // 201은 create, 댓글의 id를 보내준다.
+};
+
+export const removeComment = async (req, res) => {
+    const { id } = req.params;
+    await db.Comment.destroy({
+        where: {
+            comment_id: id,
+        },
+    });
+    return res.status(201);
 };

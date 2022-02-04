@@ -10,7 +10,7 @@
 
 </head>
 <body>
-    <div class="watch_container">
+    <div id="watch_container" data-id="<%= board.board_id %>">
         <% if (board) { %>
             <table border="1">
                 <tr>
@@ -65,20 +65,30 @@
     <% if (loggedIn) {%>
     <button id="like" type="button" onclick="likeFun(<%=board.board_id%>) ">좋아요👍 <%= board.like %></button>
     <button id="hate" type="button" onclick="hateFun(<%=board.board_id%>) ">싫어요👎 <%= board.hate %></button>
+    <div id="comment-add">
+        <form id="commentForm">
+            <textarea cols="30", rows="1", placeholder="writer a nice comment..."></textarea>
+            <button>ADD COMMENT</button>
+            </form>
+    </div>
     <% } else {%>
         <span>좋아요👍 <%= board.like %></span>
         <span>싫어요👎 <%= board.hate %></span>
         <% } %>
+        <div id="comment-view">
+            <ul>
+                <% if (board.comments.length != 0) { %>
+                <% board.comments.reverse().forEach(element => { %>
+                    <li class="board__comment" id="com<%= element.comment_id %>">
+                        <span><%= element.text %></span>
+                        <% if (loggedIn && element.user_id == loggedInUser.user_id) { %>
+                        <span onclick="removeComment(<%= element.comment_id %>)">❌</span>
+                        <% } %>
+                    </li>
+                <%})};%>
+            </ul>
+            </div>
+        
 </body>
-<script>
-    function view(pass, id) {
-        const passValue = document.getElementById('password').value;
-        if (pass == passValue) {
-            document.getElementById('message').innerHTML="";
-            document.getElementById("message").innerHTML='<a href="/boards/'+id+'/edit">Edit Post</a><br><a href="/boards/'+id+'/delete">Delete Post</a>';
-        } else {
-            document.getElementById('message').innerHTML="비밀번호가 틀렸습니다..";
-        }
-}
-</script>
+<script src="/static/js/commentFun.js"></script>
 </html>

@@ -11,11 +11,21 @@
             localStorage.setItem("dateSort", Number(0));
             localStorage.setItem("likeSort", Number(0));
             localStorage.setItem("hateSort", Number(0));
+            localStorage.setItem("page", Number(1));
         </script>
 </head>
 <body>
     <div>
-        <button type="button" onclick="dateView(localStorage.getItem('dateSort'));">작성일순</button><button onclick="likeView(localStorage.getItem('likeSort')); ">좋아요순</button><button onclick="hateView(localStorage.getItem('hateSort')); ">싫어요순</button>
+        <button onclick="dateView(localStorage.getItem('dateSort'));">작성일순</button>
+        <button onclick="likeView(localStorage.getItem('likeSort')); ">좋아요순</button>
+        <button onclick="hateView(localStorage.getItem('hateSort')); ">싫어요순</button>
+    </div>
+    <div id="page-class">
+        <% if (boards) {
+            let pageLength = (boards.length % 20 == 0) ? boards.length/20 : boards.length/20+1;
+            for (let i=1; i <= pageLength; i++) { %>
+                <span onclick="pageNum(<%= i %>);"><%= i %></span>
+        <%} }%>
     </div>
     <div id="table-container">
         <table id="table-th" border="1">
@@ -26,7 +36,8 @@
                 <th>싫어요</th>
                 <th>작성일</th>
         <% if (boards) {
-            for (let i=0; i < boards.length; i++) { %>
+            // let max = (1*20) >= boards.length ? boards.length : ((1*20));
+            for (let i=0; i < 20; i++) { %>
                 <tr>
                     <td><%= i+1 %></td>
                     <td><a href="/boards/<%=boards[i].board_id%>"><%= boards[i].title %></a></td>
@@ -34,7 +45,7 @@
                     <td><%= boards[i].like %></td>
                     <td><%= boards[i].hate %></td>
                     <td><%= boards[i].createdAt %></td>
-                </tr>
+                </tr> 
         <% }
     } else { %>
         <tr>SORRY, not found</tr>
