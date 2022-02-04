@@ -1,4 +1,25 @@
 import multer from "multer";
+import multerS3 from "multer-s3";
+import aws from "aws-sdk";
+
+const s3 = new aws.S3({
+    credentials: {
+        accessKeyId: process.env.AWS_ID,
+        secretAccessKey: process.env.AWS_SECRET,
+    },
+});
+
+const s3ImageUploader = multerS3({
+    s3: s3,
+    bucket: "sosoboboard/boardImages",
+    acl: "public-read",
+});
+
+const s3avatarUploader = multerS3({
+    s3: s3,
+    bucket: "sosoboboard/avatarImages",
+    acl: "public-read",
+});
 
 export const localsMiddelware = (req, res, next) => {
     res.locals.loggedIn = Boolean(req.session.loggedIn);
@@ -28,6 +49,7 @@ export const pictureUpload = multer({
     limits: {
         fileSize: 3000000,
     },
+    storage: s3ImageUploader,
 });
 
 export const avatarUpload = multer({
@@ -35,10 +57,5 @@ export const avatarUpload = multer({
     limits: {
         fileSize: 3000000,
     },
+    storage: s3avatarUploader,
 });
-
-// export const setHomeList = (req, res, next) => {
-//     localStorage.setItem(dateSort, Boolean(0));
-//     localStorage.setItem(likeSort, Boolean(0));
-//     localStorage.setItem(hateSort, Boolean(0));
-// };

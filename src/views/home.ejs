@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .activatePage{
+            color: red;
+        }
+        .activateBtn {
+            background-color: hotpink;
+            border-color: hotpink;
+        }
+    </style>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/static/js/watchFun.js"></script>
     <%- include ("base") %>
@@ -16,15 +25,15 @@
 </head>
 <body>
     <div>
-        <button onclick="dateView(localStorage.getItem('dateSort'));">작성일순</button>
-        <button onclick="likeView(localStorage.getItem('likeSort')); ">좋아요순</button>
-        <button onclick="hateView(localStorage.getItem('hateSort')); ">싫어요순</button>
+        <button class="sortBtn" onclick="dateView(localStorage.getItem('dateSort'));">작성일순</button>
+        <button class="sortBtn" onclick="likeView(localStorage.getItem('likeSort')); ">좋아요순</button>
+        <button class="sortBtn" onclick="hateView(localStorage.getItem('hateSort')); ">싫어요순</button>
     </div>
     <div id="page-class">
         <% if (boards) {
             let pageLength = (boards.length % 20 == 0) ? boards.length/20 : boards.length/20+1;
             for (let i=1; i <= pageLength; i++) { %>
-                <span onclick="pageNum(<%= i %>);"><%= i %></span>
+                <span>&nbsp;</span><span class="page" style="cursor: pointer;" onclick="pageNum(<%= i %>);"><%= i %></span>
         <%} }%>
     </div>
     <div id="table-container">
@@ -44,7 +53,9 @@
                     <td><%= boards[i].writer %></td>
                     <td><%= boards[i].like %></td>
                     <td><%= boards[i].hate %></td>
-                    <td><%= boards[i].createdAt %></td>
+                    <td><% let date = new Date(boards[i].createdAt);
+                        date = date.toISOString().replace("T", " ").replace(/\..*/, ""); %>
+                        <%= date %></td>
                 </tr> 
         <% }
     } else { %>

@@ -82,7 +82,7 @@
                     <li class="board__comment" id="com<%= element.comment_id %>">
                         <span><%= element.text %></span>
                         <% if (loggedIn && element.user_id == loggedInUser.user_id) { %>
-                        <span onclick="removeComment(<%= element.comment_id %>)">❌</span>
+                        <span style="cursor: pointer;" onclick="removeComment(<%= element.comment_id %>)">❌</span>
                         <% } %>
                     </li>
                 <%})};%>

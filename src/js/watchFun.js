@@ -25,6 +25,7 @@ function hateFun(id) {
 }
 
 function dateView(TorF) {
+    let sortBtn = document.getElementsByClassName("sortBtn");
     fetch(`/api/${TorF}/date`, {
         method: "post",
     })
@@ -33,14 +34,21 @@ function dateView(TorF) {
             localStorage.setItem("dateSort", res.TorF);
             localStorage.setItem("likeSort", 0);
             localStorage.setItem("hateSort", 0);
-            if (document.querySelector("table")) {
-                document.querySelector("table").remove();
+            for (var i = 0; i < sortBtn.length; i++) {
+                sortBtn[i].classList.remove("activateBtn");
+                if (sortBtn[i].textContent == "작성일순") {
+                    if (localStorage.getItem("dateSort") == 1) {
+                        sortBtn[i].classList.add("activateBtn");
+                    }
+                }
             }
+            tableRemove();
             tableLoad(res.boards);
         });
 }
 
 function likeView(TorF) {
+    let sortBtn = document.getElementsByClassName("sortBtn");
     fetch(`/api/${TorF}/like`, {
         method: "post",
     })
@@ -49,14 +57,21 @@ function likeView(TorF) {
             localStorage.setItem("likeSort", res.TorF);
             localStorage.setItem("hateSort", 0);
             localStorage.setItem("dateSort", 0);
-            if (document.querySelector("table")) {
-                document.querySelector("table").remove();
+            for (var i = 0; i < sortBtn.length; i++) {
+                sortBtn[i].classList.remove("activateBtn");
+                if (sortBtn[i].textContent == "좋아요순") {
+                    if (localStorage.getItem("likeSort") == 1) {
+                        sortBtn[i].classList.add("activateBtn");
+                    }
+                }
             }
+            tableRemove();
             tableLoad(res.boards);
         });
 }
 
 function hateView(TorF) {
+    let sortBtn = document.getElementsByClassName("sortBtn");
     fetch(`/api/${TorF}/hate`, {
         method: "post",
     })
@@ -65,9 +80,15 @@ function hateView(TorF) {
             localStorage.setItem("hateSort", res.TorF);
             localStorage.setItem("likeSort", 0);
             localStorage.setItem("dateSort", 0);
-            if (document.querySelector("table")) {
-                document.querySelector("table").remove();
+            for (var i = 0; i < sortBtn.length; i++) {
+                sortBtn[i].classList.remove("activateBtn");
+                if (sortBtn[i].textContent == "싫어요순") {
+                    if (localStorage.getItem("hateSort") == 1) {
+                        sortBtn[i].classList.add("activateBtn");
+                    }
+                }
             }
+            tableRemove();
             tableLoad(res.boards);
         });
 }
@@ -78,9 +99,7 @@ function hateView3() {
     })
         .then((res) => res.json())
         .then((res) => {
-            if (document.querySelector("table")) {
-                document.querySelector("table").remove();
-            }
+            tableRemove();
             tableLoad(res.boards);
         });
 }
@@ -91,9 +110,7 @@ function likeView3() {
     })
         .then((res) => res.json())
         .then((res) => {
-            if (document.querySelector("table")) {
-                document.querySelector("table").remove();
-            }
+            tableRemove();
             tableLoad(res.boards);
         });
 }
@@ -104,9 +121,7 @@ function dateView3() {
     })
         .then((res) => res.json())
         .then((res) => {
-            if (document.querySelector("table")) {
-                document.querySelector("table").remove();
-            }
+            tableRemove();
             tableLoad(res.boards);
         });
 }
@@ -118,6 +133,8 @@ function tableLoad(boards) {
         "<table id='table-th' border='1'><th>번호</th><th>제목</th><th>작성자</th><th>좋아요</th><th>싫어요</th><th>작성일</th>";
 
     for (let i = page * 20 - 20; i < max; i++) {
+        let Tdate = new Date(boards[i].createdAt);
+        Tdate = Tdate.toISOString().replace("T", " ").replace(/\..*/, "");
         thtml +=
             "<tr><td>" +
             (i + 1) +
@@ -132,7 +149,7 @@ function tableLoad(boards) {
             "</td><td>" +
             boards[i].hate +
             "</td><td>" +
-            boards[i].createdAt +
+            Tdate +
             "</td></tr>";
     }
     thtml += "</table>";
@@ -157,9 +174,16 @@ function view(pass, id) {
 
 function pageNum(params) {
     localStorage.setItem("page", Number(params));
+    let spans = document.getElementsByClassName("page");
     let preDate = Number(localStorage.getItem("dateSort"));
     let preLike = Number(localStorage.getItem("likeSort"));
     let preHate = Number(localStorage.getItem("hateSort"));
+    for (var i = 0; i < spans.length; i++) {
+        spans[i].classList.remove("activatePage");
+        if (spans[i].textContent == params) {
+            spans[i].classList.add("activatePage");
+        }
+    }
 
     if (preDate == 1) {
         dateView3();

@@ -13,6 +13,7 @@ const addComment = (text, id) => {
     newComment.appendChild(span);
     newComment.appendChild(span2);
     span2.setAttribute("onclick", `removeComment(${id})`);
+    span2.setAttribute("style", "cursor:pointer");
     boardComments.prepend(newComment);
 };
 

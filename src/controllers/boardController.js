@@ -1,5 +1,4 @@
 import db from "../../models";
-import multer from "multer";
 
 export const home = async (req, res) => {
     const boards = await db.Board.findAll({});
