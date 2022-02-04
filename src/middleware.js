@@ -49,7 +49,7 @@ export const pictureUpload = multer({
     limits: {
         fileSize: 3000000,
     },
-    storage: s3ImageUploader,
+    //storage: s3ImageUploader,
 });
 
 export const avatarUpload = multer({
@@ -57,5 +57,5 @@ export const avatarUpload = multer({
     limits: {
         fileSize: 3000000,
     },
-    storage: s3avatarUploader,
+    //storage: s3avatarUploader,
 });

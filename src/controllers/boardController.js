@@ -231,6 +231,14 @@ export const dateSortOnly = async (req, res) => {
     return res.send({ boards });
 };
 
+export const dateSortOnlyR = async (req, res) => {
+    let boards = null;
+    boards = await db.Board.findAll({
+        order: [["createdAt", "ASC"]],
+    });
+    return res.send({ boards });
+};
+
 export const createComment = async (req, res) => {
     const {
         session: { user },

@@ -1,7 +1,5 @@
 import express from "express";
 import {
-    likeUpdown,
-    hateUpdown,
     watch,
     deleteboard,
     getUpload,

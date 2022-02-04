@@ -48,7 +48,7 @@
             // let max = (1*20) >= boards.length ? boards.length : ((1*20));
             for (let i=0; i < 20; i++) { %>
                 <tr>
-                    <td><%= i+1 %></td>
+                    <td><%= boards[i].board_id %></td>
                     <td><a href="/boards/<%=boards[i].board_id%>"><%= boards[i].title %></a></td>
                     <td><%= boards[i].writer %></td>
                     <td><%= boards[i].like %></td>

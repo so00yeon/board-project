@@ -10,6 +10,7 @@ import {
     hateSortOnly,
     dateSortOnly,
     likeSortOnly,
+    dateSortOnlyR,
 } from "../controllers/boardController";
 
 const apiRouter = express.Router();
@@ -20,6 +21,7 @@ apiRouter.post("/:TorF(\\d+)/hate", hateSort);
 apiRouter.post("/hateOnly", hateSortOnly);
 apiRouter.post("/likeOnly", likeSortOnly);
 apiRouter.post("/dateOnly", dateSortOnly);
+apiRouter.post("/dateOnlyR", dateSortOnlyR);
 apiRouter.post("/boards/:id(\\d+)/comment", createComment);
 apiRouter.post("/boards/:id(\\d+)/remove", removeComment);
 apiRouter.post("/boards/:id(\\d+)/like", likeUpdown);

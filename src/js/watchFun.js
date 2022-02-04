@@ -126,6 +126,17 @@ function dateView3() {
         });
 }
 
+function dateView4() {
+    fetch(`/api/dateOnlyR`, {
+        method: "post",
+    })
+        .then((res) => res.json())
+        .then((res) => {
+            tableRemove();
+            tableLoad(res.boards);
+        });
+}
+
 function tableLoad(boards) {
     const page = Number(localStorage.getItem("page"));
     let max = page * 20 >= boards.length ? boards.length : page * 20;
@@ -137,7 +148,7 @@ function tableLoad(boards) {
         Tdate = Tdate.toISOString().replace("T", " ").replace(/\..*/, "");
         thtml +=
             "<tr><td>" +
-            (i + 1) +
+            boards[i].board_id +
             "</td><td><a href='/boards/" +
             boards[i].board_id +
             "'>" +
@@ -191,8 +202,8 @@ function pageNum(params) {
         likeView3();
     } else if (preHate == 1) {
         hateView3();
-    } else {
-        dateView3();
+    } else if (preDate == 0) {
+        dateView4();
     }
 }
 
